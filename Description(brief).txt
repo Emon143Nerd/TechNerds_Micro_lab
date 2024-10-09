@@ -1,0 +1,80 @@
+PhysioSmart: Medicine Detection using Raspberry Pi
+
+This project is designed to help detect medicines 
+using a Raspberry Pi and its camera module. It captures
+ an image of a medicine, performs OCR (Optical Character Recognition)
+ to read the medicine's name, and provides feedback based on a list
+ of medicines stored in a text file. The feedback includes whether 
+the medicine is prescribed, when to take it, and a description. 
+The Raspberry Pi uses text-to-speech (TTS) to speak this information out loud.
+
+### What You Need
+- A Raspberry Pi (I used Raspberry Pi 3, but newer models will work as well)
+- A PiCamera module
+- A MicroSD card with Raspberry Pi OS installed
+- A speaker or headphones (for the audio output)
+
+### Software Setup
+1. First, I installed the required software on the Raspberry Pi:
+   
+   Open the terminal and run the following commands:
+   ```
+   sudo apt update
+   sudo apt install python3-pip
+   sudo apt install mpg321
+   pip3 install picamera requests pillow gtts
+   ```
+
+2. Next, I had to enable the PiCamera. This can be done by typing:
+   ```
+   sudo raspi-config
+   ```
+   Go to "Interfacing Options" and select "Camera." Enable it, and
+ then reboot the Raspberry Pi.
+
+3. I used OCR.Space to handle the text extraction. You'll need to 
+sign up at their website and get an API key. Once you have the API 
+key, open the Python script and replace the placeholder where it 
+says `api_key` with your actual API key.
+
+### How to Set Up the Medicine List
+The medicine details are stored in a text file named `medicines.txt`
+. In this file, I added the medicines in the following format:
+```
+MedicineName|Description|Time
+```
+For example:
+```
+Paracetamol|For fever and pain relief|09:00 AM
+Aspirin|Blood thinner and anti-inflammatory|02:00 PM
+```
+Each medicine's name, description, and time to take it should be
+ separated by the `|` symbol.
+
+### Running the Code
+Once everything is set up, run the script by typing:
+```
+python3 your_script_name.py
+```
+
+The camera will capture an image of the medicine label. The script
+ will then extract text from the image and check it against the medicines
+ in the `medicines.txt` file. If it finds a match, it will speak the 
+details (medicine name, description, and time to take it) using text-to-speech.
+ If the medicine isn't found, it will say "Not prescribed."
+
+### Troubleshooting
+- If no text is extracted, make sure the label is clear, well-lit,
+ and properly positioned in front of the camera.
+- If there's no audio, check your speaker/headphone connection and make 
+sure `mpg321` is installed for playing the TTS output.
+
+### How to Add or Edit Medicines
+To update the medicines list, simply open the `medicines.txt` file 
+and add or modify the lines with new medicine information in the
+ same format as described above. No need to retrain or modify the
+ script itself—just update the text file.
+
+This should help you get the project up and running. If you need to
+ add more functionality, you can tweak the Python code as needed or experiment with new features.
+
